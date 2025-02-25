@@ -24,12 +24,12 @@ public class pohyb : MonoBehaviour
         transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
 
         // Pohyb pyramidy pomocí šipek
-        //float moveHorizontal = Input.GetAxis("Horizontal");
-        //float moveVertical = Input.GetAxis("Vertical");
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
 
 
-        float moveHorizontal = inputActions.Player1.Movement.ReadValue<Vector2>().x;
-        float moveVertical = inputActions.Player1.Movement.ReadValue<Vector2>().y;
+        //float moveHorizontal = inputActions.Player1.Movement.ReadValue<Vector2>().x;
+        //float moveVertical = inputActions.Player1.Movement.ReadValue<Vector2>().y;
 
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
         rb.AddForce(movement * 10f); // Mùžeš upravit rychlost pohybu
