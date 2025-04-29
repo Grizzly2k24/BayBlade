@@ -5,7 +5,12 @@ public class MenuManager : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("menu"); 
+        SceneManager.LoadScene("SampleScene"); 
+    }
+
+    public void ToMenu()
+    {
+        SceneManager.LoadScene("menu");
     }
 
     public void QuitGame()
