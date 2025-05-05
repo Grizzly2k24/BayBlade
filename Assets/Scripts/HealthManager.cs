@@ -1,18 +1,24 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
     //Referenci na obrazek UI.
-    //Promìnou pro životy
+    //Promï¿½nou pro ï¿½ivoty
 
-    //Metodu take damage která pøijme hodnotu damage a odeète ho od životù.
+    //Metodu take damage kterï¿½ pï¿½ijme hodnotu damage a odeï¿½te ho od ï¿½ivotï¿½.
 
-    //Metodu UpdateHealthbar která aktualizuje vizuálnì poøet žiotù hráèe.
+    //Metodu UpdateHealthbar kterï¿½ aktualizuje vizuï¿½lnï¿½ poï¿½et ï¿½iotï¿½ hrï¿½ï¿½e.
     public Image healthBar;
 
     public float maxhp = 100f;
-    private float aktualnihp;
+    [SerializeField]private float aktualnihp;
+
+    public GameObject DeathScren;
+
+    public bool isEnemy = false; // Assign this in Inspector
+
 
     private void Start()
     {
@@ -39,13 +45,58 @@ public class HealthManager : MonoBehaviour
     {
         if (healthBar != null)
         {
-            healthBar.fillAmount = aktualnihp / maxhp;
+            healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, aktualnihp / maxhp, Time.deltaTime * 10f);
+            Debug.Log("Health updated: " + aktualnihp + "/" + maxhp);
+        }
+        else
+        {
+            Debug.LogWarning("HealthBar is not assigned!");
         }
     }
 
     private void Die()
     {
-        Debug.Log("BayBlade byl znièen!");
-        Destroy(gameObject);
+        if (isEnemy)
+        {
+            Debug.Log("Enemy BayBlade destroyed! Respawning...");
+            RespawnEnemy();
+        }
+        else
+        {
+            Debug.Log("Player BayBlade destroyed!");
+            Time.timeScale = 0f;
+            DeathScren.SetActive(true);
+            Destroy(gameObject);
+        }
+    }
+
+    private void RespawnEnemy()
+    {
+        aktualnihp = maxhp;
+        UpdateHealthBar();
+
+        // Option 1: Reset position to a spawn point
+        transform.position = GetRandomSpawnPosition();
+        GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+
+        // Optional: Reactivate behavior, reset stamina, etc.
+    }
+
+    private Vector3 GetRandomSpawnPosition()
+    {
+        // Random point near center, tweak as needed
+        float range = 5f;
+        return new Vector3(Random.Range(-range, range), 0.5f, Random.Range(-range, range));
+    }
+
+
+    public void Respawn()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        aktualnihp = maxhp;
+        UpdateHealthBar();
+        Time.timeScale = 1f; // Obnovï¿½ hru
+        Debug.Log("BayBlade byl obnoven!");
+        DeathScren.SetActive(false); // Skryje obrazovku smrti
     }
 }
