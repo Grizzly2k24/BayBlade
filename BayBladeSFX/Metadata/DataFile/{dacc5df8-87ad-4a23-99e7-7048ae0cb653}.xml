@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="DataFile" id="{dacc5df8-87ad-4a23-99e7-7048ae0cb653}">
+		<property name="assetPath">
+			<value>Bayblade/BaybladeSFX/The Different Sounds of Beyblade Burst Launchers - ASMR.mp4</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4c43130b-9186-4fb6-9d65-a9acdac70927}</destination>
+		</relationship>
+	</object>
+</objects>
